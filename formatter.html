@@ -8,8 +8,6 @@
 	<!-- UIkit JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.8/js/uikit.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.8/js/uikit-icons.min.js"></script>
-	<!-- Our Script -->
-	<script type="text/javascript" src="formatter.js"></script>
 </head>
 <body class="uk-width-3-4@m uk-margin-auto uk-margin-small-top">
 	<div uk-grid>
@@ -20,72 +18,11 @@
 		<div class="js-upload uk-card uk-card-primary uk-card-body uk-width-1-1 uk-text-center">
 			<h3 class="uk-card-title">Begin</h3>
 			<p><span uk-icon="icon: cloud-upload"> </span>Please drag the CSV file</p>
-			<progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+			<progress id="js-progressbar" class="uk-progress" value="0" max="100"></progress>
 		</div>
-
-		<!--UIkit Upload Function -->
-		<script>
-	    var bar = document.getElementById('js-progressbar');
-
-	    UIkit.upload('.js-upload', {
-
-	        url: '',
-	        multiple: true,
-
-	        beforeSend: function (environment) {
-	            console.log('beforeSend', arguments);
-
-	            // The environment object can still be modified here. 
-	            // var {data, method, headers, xhr, responseType} = environment;
-
-	        },
-	        beforeAll: function () {
-	            console.log('beforeAll', arguments);
-	        },
-	        load: function () {
-	            console.log('load', arguments);
-	        },
-	        error: function () {
-	            console.log('error', arguments);
-	        },
-	        complete: function () {
-	            console.log('complete', arguments);
-	        },
-
-	        loadStart: function (e) {
-	            console.log('loadStart', arguments);
-
-	            bar.removeAttribute('hidden');
-	            bar.max = e.total;
-	            bar.value = e.loaded;
-	        },
-
-	        progress: function (e) {
-	            console.log('progress', arguments);
-
-	            bar.max = e.total;
-	            bar.value = e.loaded;
-	        },
-
-	        loadEnd: function (e) {
-	            console.log('loadEnd', arguments);
-
-	            bar.max = e.total;
-	            bar.value = e.loaded;
-	        },
-
-	        completeAll: function () {
-	            console.log('completeAll', arguments);
-
-	            setTimeout(function () {
-	                bar.setAttribute('hidden', 'hidden');
-	            }, 1000);
-
-	            alert('Upload Completed');
-	        }
-
-	    });
-		</script>
 	</div>
+
+<!-- Our Script -->
+<script type="text/javascript" src="formatter.js"></script>
 </body>
 </html>
