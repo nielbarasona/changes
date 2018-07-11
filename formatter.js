@@ -4,61 +4,44 @@ function init(){
 
 init()
 
-<!--UIkit Upload Function -->
-var bar = document.getElementById('js-progressbar');
-UIkit.upload('.js-upload', {
-    url: '',
-    multiple: true,
+<!-- File is added to File List -->
+function handleFiles(evt) {
+	console.log(evt)
+	const reader = new FileReader()
+	reader.onload = function() {
+		Papa.parse(reader.result, {
+			complete: (results, file) => {
+				console.log("Parsing Complete:", results, file)
+			}
+		})
+	}
+	reader.readAsText(evt[0])
+}
 
-    beforeSend: function (environment) {
-        console.log('beforeSend', arguments);
+<!-- File Dropbox -->
+var dropbox;
 
-        // The environment object can still be modified here. 
-        // var {data, method, headers, xhr, responseType} = environment;
+dropbox = document.getElementById("dropbox");
+dropbox.addEventListener("dragenter", dragenter, false);
+dropbox.addEventListener("dragover", dragover, false);
+dropbox.addEventListener("drop", drop, false);
 
-    },
-    beforeAll: function () {
-        console.log('beforeAll', arguments);
-    },
-    load: function () {
-        console.log('load', arguments);
-    },
-    error: function () {
-        console.log('error', arguments);
-    },
-    complete: function () {
-        console.log('complete', arguments);
-    },
+function dragenter(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
 
-    loadStart: function (e) {
-        console.log('loadStart', arguments);
+function dragover(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
 
-        bar.removeAttribute('hidden');
-        bar.max = e.total;
-        bar.value = e.loaded;
-    },
+function drop(e) {
+  e.stopPropagation();
+  e.preventDefault();
 
-    progress: function (e) {
-        console.log('progress', arguments);
+  var dt = e.dataTransfer;
+  var files = dt.files;
 
-        bar.max = e.total;
-        bar.value = e.loaded;
-    },
-
-    loadEnd: function (e) {
-        console.log('loadEnd', arguments);
-
-        bar.max = e.total;
-        bar.value = e.loaded;
-    },
-
-    completeAll: function () {
-        console.log('completeAll', arguments);
-
-        setTimeout(function () {
-            bar.setAttribute('hidden', 'hidden');
-        }, 1000);
-
-        alert('Upload Completed');
-    }
-});
+  handleFiles(files);
+}

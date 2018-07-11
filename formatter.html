@@ -8,17 +8,25 @@
 	<!-- UIkit JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.8/js/uikit.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.8/js/uikit-icons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.5.0/papaparse.min.js"></script>
 </head>
 <body class="uk-width-3-4@m uk-margin-auto uk-margin-small-top">
-	<div uk-grid>
+	<div class="uk-grid-small" uk-grid>
 		<div class="uk-card uk-card-default uk-card-body uk-width-1-1">
 			<h3 class="uk-card-title">Changes Formatter</h3>
 			<p>An easier way to view scheduled changes</p>
 		</div>	
-		<div class="js-upload uk-card uk-card-primary uk-card-body uk-width-1-1 uk-text-center">
+		<div id="dropbox" class="uk-card uk-card-primary uk-card-body uk-width-1-1 uk-text-center">
 			<h3 class="uk-card-title">Begin</h3>
-			<p><span uk-icon="icon: cloud-upload"> </span>Please drag the CSV file</p>
-			<progress id="js-progressbar" class="uk-progress" value="0" max="100"></progress>
+			<p>
+				<span uk-icon="icon: cloud-upload"></span> Drag or Select a CSV file
+				<form>
+					<div uk-form-custom>
+						<input id="csv" type="file" multiple onchange="handleFiles(this.files)">
+						<button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+					</div>
+				</form>
+			</p>
 		</div>
 	</div>
 
