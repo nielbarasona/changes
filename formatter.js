@@ -53,40 +53,38 @@ function drop(e) {
 function process(csv) {
 	list = new Change_List(csv.data)
 
+	if (document.querySelector(".uk-table").hasAttribute("hidden")) {
+		document.querySelector(".uk-table").removeAttribute("hidden")
+	}
+
 	for (let change in list.changes) {
 		add_change_to_page(list.changes[change])
 	}
 }
 
 function add_change_to_page(change) {
-	let new_div, description, title, card_grid, start_time, header
+	//let new_div, description, title, container, start_time, header
 
-	card_grid = document.querySelector(".uk-grid")
+	let table, new_row, change_number, start_time, description
 
-	new_div = document.createElement("div");
-	new_div.classList.add("uk-card", "uk-card-default", "uk-width-1-1", "uk-card-body")
+	table = document.querySelector("tbody")
+
+	new_row = document.createElement("tr")
 	
-	header = document.createElement("div")
-	header.classList.add("uk-card-header", "uk-margin-remove-right", "uk-margin-remove-left", "uk-padding-remove")
+	change_number = document.createElement("td")
+	change_number.textContent = change.change_number
 
-	title = document.createElement("h3")
-	title.classList.add("uk-card-title", "uk-margin-remove-bottom", "uk-margin-remove-right", "uk-margin-remove-left")
-	title.textContent = change.change_number
+	start_time = document.createElement("td")
+	start_time.textContent = change.start_time.toTimeString()
 
-	start_time = document.createElement("p")
-	start_time.classList.add("uk-margin-remove-top", "uk-margin-remove-right", "uk-margin-remove-left")
-	start_time.textContent = change.start_time
-	
-	description = document.createElement("p")
+	description = document.createElement("td")
 	description.textContent = change.description
 
-	header.appendChild(title)
-	header.appendChild(start_time)
+	new_row.appendChild(change_number)
+	new_row.appendChild(start_time)
+	new_row.appendChild(description)
 
-	new_div.appendChild(header)
-	new_div.appendChild(description)
-
-	card_grid.appendChild(new_div)
+	table.appendChild(new_row)
 }
 
 // Change List Object
@@ -151,6 +149,10 @@ Processing
 Appearance
 	Make the uploader change appearance when a file is added.
 		Possibly will have to upload multiple files.
+	Make Countdown until change is in effect.
+	Change color of card to Red when Change in Effect.
+	Grey Out (Or otherwise make less visual) change when it has
+		been completed.
 
 Considerations
 	The time section currently has a bootleg way of converting 
