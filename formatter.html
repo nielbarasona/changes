@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Work Change Formatter</title>
+
+	<!-- UIkit CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.8/css/uikit.min.css" />
+	<!-- UIkit JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.8/js/uikit.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.8/js/uikit-icons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.5.0/papaparse.min.js"></script>
+</head>
+<body class="uk-width-3-4@m uk-margin-auto uk-margin-small-top">
+	<div class="uk-grid-small" uk-grid>
+		<div class="uk-card uk-card-default uk-card-body uk-width-1-1">
+			<h3 class="uk-card-title">Changes Formatter</h3>
+			<p>An easier way to view scheduled changes</p>
+		</div>	
+		<div id="dropbox" class="uk-card uk-card-primary uk-card-body uk-width-1-1 uk-text-center">
+			<h3 class="uk-card-title">Begin</h3>
+			<p>
+				<span uk-icon="icon: cloud-upload"></span> Drag or Select a CSV file
+				<form>
+					<div uk-form-custom>
+						<input id="csv" type="file" multiple onchange="handleFiles(this.files)">
+						<button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+					</div>
+				</form>
+			</p>
+		</div>
+	</div>
+
+<!-- Our Script -->
+<script type="text/javascript" src="formatter.js"></script>
+</body>
+</html>
