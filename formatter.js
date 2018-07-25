@@ -73,9 +73,14 @@ function add_change_to_page(change) {
 	
 	change_number = document.createElement("td")
 	change_number.textContent = change.change_number
+	change_number.classList.add("uk-text-nowrap")
 
 	start_time = document.createElement("td")
-	start_time.textContent = change.start_time.toTimeString()
+	start_time.textContent = change.time_until
+	setInterval(function() {
+		start_time.textContent = change.time_until
+	}, 1000)
+	start_time.classList.add("uk-text-nowrap")
 
 	description = document.createElement("td")
 	description.textContent = change.description
@@ -83,6 +88,10 @@ function add_change_to_page(change) {
 	new_row.appendChild(change_number)
 	new_row.appendChild(start_time)
 	new_row.appendChild(description)
+
+	if (change.start_time.isBefore()) {
+		new_row.classList.add("uk-background-secondary")
+	}
 
 	table.appendChild(new_row)
 }
@@ -92,20 +101,15 @@ function Change_List(change_list) {
 	this.changes = [];
 
 	for (i = 0; i < change_list.length - 1; i++) {
-		this.changes[i] = create_change(change_list[i])
+		this.changes[i] = new Change(change_list[i])
 	}
 
-	function create_change(change_record) {
-		return {
-			change_number: change_record[19],
-			start_time: new Date(date_format(change_record[35])),
-			end_time: new Date(date_format(change_record[36])),
-			manager: change_record[33],
-			assignee: change_record[34],
-			description: change_record[37]
-		}
+	this.changes.sort(function(a, b) {
+		return a.start_time.diff(b.start_time)
+	})
 
-		function date_format(string) {
+	function Change(change_record) {
+		let date_format = function(string) {
 			let start_time = string.split("  ");
 			let hour
 
@@ -127,24 +131,41 @@ function Change_List(change_list) {
 			}
 
 			let year = 	parseInt(date_split[2]),
-				month = parseInt(date_split[1]),
-				day = 	parseInt(date_split[0]),
+				month = parseInt(date_split[0]),
+				day = 	parseInt(date_split[1]),
 				min = 	parseInt(time_split[1]);
-
-			return(new Date(year, month, day, hour, min))
+			return(year + "-" + month + "-" + day + " " + hour + ":" + min)
 		}
+
+		this.change_number = change_record[19],
+		this.start_time = moment(date_format(change_record[35]))
+		this.end_time = moment(date_format(change_record[36]))
+		this.manager = change_record[33]
+		this.assignee = change_record[34]
+		this.description = change_record[37]
+
+		Object.defineProperty(this, 'time_until', {
+			get: function() {
+				let hours = this.start_time.diff(moment(), 'hours')
+				// if (hours < 10) {
+				// 	hours = "0" + hours
+				// }
+				let minutes = this.start_time.diff(moment(), 'minutes') % 60
+				// if (minutes < 10) {
+				// 	minutes = "0" + hours
+				// }
+				let seconds = this.start_time.diff(moment(), 'seconds') % 60
+				// if (seconds < 10) {
+				// 	seconds = "0" + hours
+				// }
+				return (hours + "h " + minutes + "m " + seconds + "s")
+			}
+		});
 	}
 }
 
-/* Animation and selecting
-asdf = document.querySelector("#dropbox")
-asdf.classList.add("uk-animmation-reverse", "uk-animation-fade")
-*/
-
 /*-----TODO-----
 Processing
-	Sort function
-		Sort by start time.
 
 Appearance
 	Make the uploader change appearance when a file is added.
