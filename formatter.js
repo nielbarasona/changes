@@ -20,7 +20,7 @@ function handleFiles(evt) {
 	reader.readAsText(evt[0])
 }
 
-// File Dropbox
+// File Dropbox from UIKit
 var dropbox;
 
 dropbox = document.getElementById("dropbox");
@@ -29,23 +29,23 @@ dropbox.addEventListener("dragover", dragover, false);
 dropbox.addEventListener("drop", drop, false);
 
 function dragenter(e) {
-  e.stopPropagation();
-  e.preventDefault();
+	e.stopPropagation();
+	e.preventDefault();
 }
 
 function dragover(e) {
-  e.stopPropagation();
-  e.preventDefault();
+	e.stopPropagation();
+	e.preventDefault();
 }
 
 function drop(e) {
-  e.stopPropagation();
-  e.preventDefault();
+	e.stopPropagation();
+	e.preventDefault();
 
-  var dt = e.dataTransfer;
-  var files = dt.files;
+	var dt = e.dataTransfer;
+	var files = dt.files;
 
-  handleFiles(files);
+	handleFiles(files);
 }
 
 // Processing
@@ -63,8 +63,6 @@ function process(csv) {
 }
 
 function add_change_to_page(change) {
-	//let new_div, description, title, container, start_time, header
-
 	let table, new_row, change_number, start_time, description
 
 	table = document.querySelector("tbody")
@@ -166,6 +164,7 @@ function Change_List(change_list) {
 
 /*-----TODO-----
 Processing
+	Allow for uploading multiple files.
 
 Appearance
 	Make the uploader change appearance when a file is added.
@@ -174,6 +173,9 @@ Appearance
 	Change color of card to Red when Change in Effect.
 	Grey Out (Or otherwise make less visual) change when it has
 		been completed.
+	Change time to time remaining once change has started.
+	Once Change is Complete change time to "COMPLETED" and stop
+		timer
 
 Considerations
 	The time section currently has a bootleg way of converting 
